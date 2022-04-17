@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 func Init() {
@@ -20,9 +22,10 @@ func Init() {
 	pingController := controllers.PingController{}
 
 	// Map controllers to URLs
-	mux := http.NewServeMux()
-	mux.HandleFunc("/api/version", pingController.GetVersion)
+	router := mux.NewRouter()
 
-	logging.Log(fmt.Sprintf("Server started in %dms", time.Since(startTime).Milliseconds()))
-	http.ListenAndServe(address, mux)
+	router.HandleFunc("/api/version", pingController.GetVersion).Methods("GET")
+
+	logging.Log(fmt.Sprintf("Started server in %dms", time.Since(startTime).Milliseconds()))
+	http.ListenAndServe(address, router)
 }

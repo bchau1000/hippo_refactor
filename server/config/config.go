@@ -37,14 +37,14 @@ func Init() Config {
 
 	if err != nil {
 		logging.Log(fmt.Sprintf("Fatal error reading config file: %s \n", err))
-		panic(fmt.Errorf("Fatal error reading config file: %w \n", err))
+		panic(fmt.Errorf("fatal error reading config file: %w", err))
 	}
 
 	return Config{
 		Server: newServerConfig(
-			viper.GetString("apiHost"),
-			viper.GetInt("apiPort"),
-			viper.GetString("apiVersion"),
+			viper.GetString(ServerHost),
+			viper.GetInt(ServerPort),
+			viper.GetString(ServerVersion),
 		),
 		Database: newDatabaseConfig( // TO DO
 			"",
