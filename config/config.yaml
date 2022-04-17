@@ -1,0 +1,6 @@
+apiHost: 127.0.0.1
+apiPort: 3000
+apiVersion: "0.0"
+dbHost: 127.0.0.1
+dbName: placeholder
+dbPort: 3306
