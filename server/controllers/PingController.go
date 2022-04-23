@@ -13,15 +13,18 @@ type PingController struct {
 }
 
 // GET
-func (pc PingController) GetVersion(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Content-Type", "application/json")
-	resp.Header().Set("Access-Control-Allow-Origin", "*")
-	resp.WriteHeader(http.StatusOK)
-	time.Sleep(2 * time.Second)
-	// TO DO: Has to be a better way to get this apiVersion
-	jsonData := []byte(fmt.Sprintf(
-		`{"status": "OK", "version": %s}`,
-		viper.GetString(cfg.ServerVersion)))
+func (pc PingController) GetVersion() http.HandlerFunc {
+	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
+		resp.WriteHeader(http.StatusOK)
 
-	resp.Write(jsonData)
+		// Only here to test loading/caching in frontend
+		time.Sleep(2 * time.Second)
+
+		jsonData := []byte(fmt.Sprintf(
+			`{"status": "OK", "version": %s}`,
+			viper.GetString(cfg.ServerVersion)))
+
+		resp.Write(jsonData)
+	})
+
 }
