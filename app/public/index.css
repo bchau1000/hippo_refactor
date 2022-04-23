@@ -620,11 +620,6 @@ video {
   }
 }
 
-.text-9xl {
-  font-size: 8rem;
-  line-height: 1;
-}
-
 *, ::before, ::after {
   --tw-shadow: 0 0 #0000;
 }

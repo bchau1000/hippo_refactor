@@ -23,7 +23,7 @@ func Init() {
 
 	// Map controllers to URLs
 	router := mux.NewRouter()
-	router.HandleFunc("/api/version", pingController.GetVersion).Methods("GET")
+	router.HandleFunc("/api/version", pingController.GetVersion).Methods("GET", "OPTIONS")
 
 	logging.Log(fmt.Sprintf("Started server in %dms", time.Since(startTime).Milliseconds()))
 	http.ListenAndServe(address, router)
