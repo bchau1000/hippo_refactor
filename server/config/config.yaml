@@ -1,6 +1,6 @@
-serverHost: 127.0.0.1
+serverHost: "127.0.0.1"
 serverPort: 3000
 serverVersion: "0.0"
-dbHost: 127.0.0.1
+dbHost: "127.0.0.1"
 dbName: placeholder
 dbPort: 3306

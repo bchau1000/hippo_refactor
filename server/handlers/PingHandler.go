@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	cfg "base/server/config"
@@ -9,11 +9,15 @@ import (
 	"github.com/spf13/viper"
 )
 
-type PingController struct {
+/**
+ * Simple handler to ping the server
+**/
+
+type PingHandler struct {
 }
 
 // GET
-func (pc PingController) GetVersion() http.HandlerFunc {
+func (ph PingHandler) GetVersion() http.HandlerFunc {
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 		resp.WriteHeader(http.StatusOK)
 
@@ -26,5 +30,4 @@ func (pc PingController) GetVersion() http.HandlerFunc {
 
 		resp.Write(jsonData)
 	})
-
 }

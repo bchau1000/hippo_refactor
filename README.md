@@ -17,6 +17,8 @@ Refactoring hippo-webapp using a new tech stack:
     - Run: `npm install` if necessary
     - Start dev: `npm run dev`
 
+- Try to keep code under 100 lines by wrapping arguments/parameters
+
 # Logs
 - Logs are output to the root of the folder in `server.log` by default.
 

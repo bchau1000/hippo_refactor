@@ -1,13 +1,10 @@
 <script lang="ts">
-	import {Version} from './models/Version';
-
+	import {Version} from '../../models/Version';
 	async function request():Promise<Version> {
 		const response:Response = await fetch("http://localhost:3000/api/version");
 		const json = await response.json();
-
 		return new Version(json);
 	}
-
 	let version:Promise<Version> = request();
 </script>
 

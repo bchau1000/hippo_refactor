@@ -2,7 +2,9 @@ export class Version {
     private version: string;
     private status: string;
 
-    constructor({ version, status }) {
+    constructor({ version, status }:
+        { version: string, status: string }) {
+
         this.version = version;
         this.status = status;
     }
@@ -16,6 +18,7 @@ export class Version {
     }
 
     public toString(): string {
-        return `{Version: ${this.version}, Status: ${this.status}}`;
+        return `{Version: ${this.version}, 
+            Status: ${this.status}}`;
     }
 }

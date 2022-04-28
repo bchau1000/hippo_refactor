@@ -1,7 +1,7 @@
 export abstract class Model {
     private id: number;
 
-    constructor(id) {
+    constructor(id: number) {
         this.id = id;
     }
 

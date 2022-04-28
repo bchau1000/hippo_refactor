@@ -2,7 +2,7 @@ package main
 
 import (
 	"base/server/config"
-	"base/server/controllers"
+	"base/server/handlers"
 	"base/server/logging"
 	"base/server/middleware"
 	"fmt"
@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 /**
@@ -23,21 +24,37 @@ import (
 func Init() {
 	startTime := time.Now()
 	cfg := config.Init()
-	address := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 
-	logging.Log(fmt.Sprintf("Starting server at %s", address))
+	logging.Log(fmt.Sprintf("Starting server at %s:%d", cfg.Server.Host, cfg.Server.Port))
 
 	// Initialize controllers
-	pingController := controllers.PingController{}
+	pingHandler := handlers.PingHandler{}
+	userHandler := handlers.UserHandler{}
 
-	// Map controllers to URLs
+	// Map handlers to URLs
 	router := mux.NewRouter()
 
 	router.HandleFunc(
 		"/api/version",
-		middleware.Wrap(pingController.GetVersion(), middleware.ResponseHeaders()),
+		middleware.Wrap(pingHandler.GetVersion(), middleware.ResponseHeaders()),
 	).Methods("GET", "OPTIONS")
 
+	router.HandleFunc(
+		"/api/register",
+		middleware.Wrap(userHandler.RegisterUser(), middleware.ResponseHeaders()),
+	).Methods("PUT", "OPTIONS")
+
+	router.HandleFunc(
+		"/api/login",
+		middleware.Wrap(userHandler.LoginUser(), middleware.ResponseHeaders()),
+	).Methods("POST", "OPTIONS")
+
+	c := cors.New(cors.Options{
+		AllowCredentials: true,
+		AllowedOrigins:   []string{cfg.Server.Host, "*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+	})
+
 	logging.Log(fmt.Sprintf("Started server in %dms", time.Since(startTime).Milliseconds()))
-	http.ListenAndServe(address, router)
+	http.ListenAndServe(fmt.Sprintf(":%d", cfg.Server.Port), c.Handler(router))
 }
