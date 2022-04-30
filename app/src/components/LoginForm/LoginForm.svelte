@@ -15,10 +15,10 @@
 			// TODO: Alert system that isn't annoying
 			console.log("Invalid email and/or password...");
 		}
-	};
+	}
 </script>
 
-<form id="login-modal-form" class="block w-full">
+<form id="login-form-component" class="block w-full">
 	<div class="flex flex-col pb-2">
 		<label for="email">Email</label>
 		<input
