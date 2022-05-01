@@ -25,8 +25,6 @@ func Init() {
 	startTime := time.Now()
 	cfg := config.Init()
 
-	logging.Log(fmt.Sprintf("Starting server at %s:%d", cfg.Server.Host, cfg.Server.Port))
-
 	// Initialize controllers
 	pingHandler := handlers.PingHandler{}
 	userHandler := handlers.UserHandler{}
@@ -55,6 +53,11 @@ func Init() {
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
 	})
 
-	logging.Log(fmt.Sprintf("Started server in %dms", time.Since(startTime).Milliseconds()))
+	logging.Log(fmt.Sprintf(
+		"Started server at %s:%d in %dms",
+		cfg.Server.Host,
+		cfg.Server.Port,
+		time.Since(startTime).Milliseconds()))
+
 	http.ListenAndServe(fmt.Sprintf(":%d", cfg.Server.Port), c.Handler(router))
 }

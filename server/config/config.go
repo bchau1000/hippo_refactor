@@ -37,7 +37,6 @@ func Init() Config {
 
 	if err != nil {
 		logging.Log(fmt.Sprintf("Fatal error reading config file: %s \n", err))
-		panic(fmt.Errorf("fatal error reading config file: %w", err))
 	}
 
 	return Config{

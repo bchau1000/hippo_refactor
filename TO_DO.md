@@ -6,4 +6,5 @@
 - Create MySQL script to initialize MySQL database
     - Add function to server.bashrc script to execute MySQL script
     - Add function to server.bashrc script to run upgrades
+- Enable HTTPS
 - Recreate boring UI stuff
