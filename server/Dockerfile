@@ -1,8 +1,5 @@
 FROM golang:1.18-alpine AS builder
 
-# Install into builder container
-RUN apk add --no-cache git
-
 # Create the working directory within the container
 WORKDIR /tmp/build
 
@@ -22,17 +19,17 @@ RUN go build -o ./out/deploy .
 
 # Create a smaller image to deploy onto
 FROM alpine:3.9
-RUN apk add ca-certificates
 
+WORKDIR /hippo-server
 # Copy files built in builder image to our new smaller image
 # into root directory /
-COPY --from=builder /tmp/build/out/deploy /
+COPY --from=builder /tmp/build/out/deploy /hippo-server
 
 # Copy needed config.yaml files into /config
-COPY --from=builder /tmp/build/config /config
+COPY --from=builder /tmp/build/config /hippo-server/config
 
 # Run the server on 3000 within the container
 EXPOSE 3000
 
 # Run this command when the container starts
-CMD ["/deploy"]
+CMD ["/hippo-server/deploy"]
