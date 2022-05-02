@@ -1,37 +1,67 @@
 package handlers
 
 import (
+	"base/server/logging"
+	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
+
+	"firebase.google.com/go/auth"
 )
 
-/**
- * Simple handler to ping the server
-**/
-
 type LoginInfo struct {
-	Email    string
-	Password string
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type RegisterInfo struct {
+	DisplayName string `json:"displayName"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
 }
 
 type UserHandler struct {
+	Client *auth.Client
 }
 
-// POST
-func (ph UserHandler) RegisterUser() http.HandlerFunc {
+// PUT
+func (handler UserHandler) RegisterUser() http.HandlerFunc {
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
+		var registerInfo RegisterInfo
+
+		err := json.NewDecoder(req.Body).Decode(&registerInfo)
+
+		if err != nil {
+			logging.Log(err.Error())
+			http.Error(resp, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		params := (&auth.UserToCreate{}).
+			DisplayName(registerInfo.DisplayName).
+			Email(registerInfo.Email).
+			EmailVerified(false).
+			Password(registerInfo.Password).
+			PhotoURL("Placeholder").
+			Disabled(false)
+
+		_, clientErr := handler.Client.CreateUser(context.Background(), params)
+
+		if clientErr != nil {
+			logging.Log(clientErr.Error())
+			http.Error(resp, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		jsonData := []byte(`{"data": "User successfully registered!"}`)
+
 		resp.WriteHeader(http.StatusOK)
-
-		jsonData := []byte(fmt.Sprintf(
-			`{"status": "OK", "version": %s}`,
-			""))
-
 		resp.Write(jsonData)
 	})
 }
 
-func (ph UserHandler) LoginUser() http.HandlerFunc {
+// POST
+func (handler UserHandler) LoginUser() http.HandlerFunc {
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 
 		var loginInfo LoginInfo

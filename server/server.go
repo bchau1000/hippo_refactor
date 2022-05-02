@@ -24,10 +24,10 @@ import (
 func Init() {
 	startTime := time.Now()
 	cfg := config.Init()
-
+	client := config.InitFirebase()
 	// Initialize controllers
 	pingHandler := handlers.PingHandler{}
-	userHandler := handlers.UserHandler{}
+	userHandler := handlers.UserHandler{Client: client}
 
 	// Map handlers to URLs
 	router := mux.NewRouter()

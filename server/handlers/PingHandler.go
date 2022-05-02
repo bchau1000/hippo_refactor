@@ -21,7 +21,7 @@ func (ph PingHandler) GetVersion() http.HandlerFunc {
 		resp.WriteHeader(http.StatusOK)
 
 		jsonData := []byte(fmt.Sprintf(
-			`{"status": "OK", "version": %s}`,
+			`{"status": "OK", "version": "%s"}`,
 			viper.GetString(cfg.ServerVersion)))
 
 		resp.Write(jsonData)

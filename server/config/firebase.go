@@ -1,6 +1,7 @@
 package config
 
 import (
+	"base/server/logging"
 	"context"
 	"fmt"
 
@@ -14,12 +15,14 @@ func InitFirebase() *auth.Client {
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 
 	if err != nil {
+		logging.Log(fmt.Sprintf("Error initializing Firebase SDK: %v", err))
 		panic(fmt.Sprintf("Error initializing Firebase SDK: %v", err))
 	}
 
 	auth, err := app.Auth(context.Background())
 
 	if err != nil {
+		logging.Log(fmt.Sprintf("Error initializing Firebase Auth: %v", err))
 		panic(fmt.Sprintf("Error initializing Firebase Auth: %v", err))
 	}
 

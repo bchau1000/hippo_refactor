@@ -16,3 +16,6 @@
 
 # Log files
 *.log
+
+# Name of the build file
+deploy

@@ -1,29 +1,50 @@
-import { serverAddress } from "./constants";
+import { ServerInfo, ContentType } from "./constants";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
+import type {UserCredential } from "firebase/auth"
 
-const login = async (event: any): Promise<Response> => {
+
+
+
+const login = async (event: any): Promise<string> => {
     event.preventDefault();
 
     const { email, password }:
         { email: string, password: string } = event.detail;
+    try {
+        const userCredential:UserCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log(userCredential.user);
+    } catch(error:any) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(`${errorCode}: ${errorMessage}`);
+    }
+    
+    return await Promise.resolve("");
+}
 
-    const body: string = JSON.stringify({
-        email: email,
-        password: password,
-    });
+const register = async (event: any):Promise<void> => {
+    event.preventDefault();
+    
+    const {displayName, email, password}:
+        {displayName:string, email:string, password:string} = event.detail;
 
-    const settings: RequestInit = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: body,
-    };
+    try {
+        const userCredential:UserCredential = await createUserWithEmailAndPassword(
+            auth, 
+            email, 
+            password
+        );
+        console.log(userCredential.user);
+    } catch(error:any) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
 
-    const response: Response = await fetch(
-        `${serverAddress}/api/login`,
-        settings);
-
-    return response;
+        console.error(`${errorCode}: ${errorMessage}`);
+    }
 }
 
 export {
-    login
+    login,
+    register
 }

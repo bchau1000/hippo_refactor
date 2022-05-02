@@ -2,12 +2,13 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
+
 	let email: string = '';
 	let password: string = '';
 
 	const login = () => {
 		if (email.length > 0 && password.length > 0) {
-			dispatch('message', {
+			dispatch('login', {
 				email: email,
 				password: password,
 			});
@@ -18,14 +19,13 @@
 	}
 </script>
 
-<form id="login-form-component" class="block w-full">
-	<div class="flex flex-col pb-2">
+<form id="login-form-component" class="flex flex-col gap-5 w-full">
+	<div class="flex flex-col">
 		<label for="email">Email</label>
 		<input
 			class="outline-none 
                 border-b-2 
                 border-gray-300 
-                pb-1
 
                 transition-colors
                 ease-in-out
@@ -36,7 +36,7 @@
 			bind:value={email}
 		/>
 	</div>
-	<div class="flex flex-col pb-5">
+	<div class="flex flex-col">
 		<label for="password">Password</label>
 		<input
 			class="outline-none 
@@ -56,6 +56,7 @@
 		class="w-full 
             text-center 
             bg-yellow-400 
+			mt-2
             py-1.5
             rounded 
             hover:cursor-pointer
