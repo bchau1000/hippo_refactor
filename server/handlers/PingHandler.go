@@ -1,11 +1,7 @@
 package handlers
 
 import (
-	cfg "base/server/config"
-	"fmt"
 	"net/http"
-
-	"github.com/spf13/viper"
 )
 
 /**
@@ -20,9 +16,7 @@ func (ph PingHandler) GetVersion() http.HandlerFunc {
 	return http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 		resp.WriteHeader(http.StatusOK)
 
-		jsonData := []byte(fmt.Sprintf(
-			`{"status": "OK", "version": "%s"}`,
-			viper.GetString(cfg.ServerVersion)))
+		jsonData := []byte(`{"status": "OK", "version": "1.0"}`)
 
 		resp.Write(jsonData)
 	})

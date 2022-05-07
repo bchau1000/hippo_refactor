@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { Events } from '../../api/constants';
+	import { SimpleInput, HiddenInput, SimpleButton } from '../General/index';
 
 	const dispatch = createEventDispatcher();
 
@@ -14,7 +16,7 @@
 		} else if (password.length < 8) {
 			console.log('Password must be at least 8 characters.');
 		} else {
-			dispatch('register', {
+			dispatch(Events.register, {
 				displayName: displayName,
 				email: email,
 				password: password
@@ -26,86 +28,26 @@
 <form id="register-form-component" class="flex flex-col w-full gap-5">
 	<div class="flex flex-col">
 		<label for="display-name">Display Name</label>
-		<input
-			class="outline-none 
-                border-b-2 
-                border-gray-300 
-
-                transition-colors
-                ease-in-out
-                duration-200
-                focus:border-yellow-400"
-			id="display-name"
-			type="name"
-			bind:value={displayName}
-		/>
+		<SimpleInput id="display-name" bind:value={displayName} />
 	</div>
 	<div class="flex flex-col">
 		<label for="email">Email</label>
-		<input
-			class="outline-none 
-                border-b-2 
-                border-gray-300 
-
-                transition-colors
-                ease-in-out
-                duration-200
-                focus:border-yellow-400"
-			id="email"
-			type="email"
-			bind:value={email}
-		/>
+		<SimpleInput id="email" bind:value={email} />
 	</div>
 	<div class="flex flex-col">
 		<label for="password">Password</label>
-		<input
-			class="outline-none 
-                    border-b-2 
-                    border-gray-300 
-                    
-                    transition-colors
-                    ease-in-out
-                    duration-200
-                    focus:border-yellow-400"
-			id="password"
-			type="password"
-			bind:value={password}
-		/>
+		<HiddenInput id="password" bind:value={password} />
 	</div>
 	<div class="flex flex-col">
 		<label for="confirm-password">Confirm Password</label>
-		<input
-			class="outline-none 
-                    border-b-2 
-                    border-gray-300 
-                    
-                    transition-colors
-                    ease-in-out
-                    duration-200
-                    focus:border-yellow-400"
-			id="confirm-password"
-			type="password"
-			bind:value={confirmPassword}
-		/>
+		<HiddenInput id="confirm-password" bind:value={confirmPassword} />
 	</div>
-	<input
-		class="w-full 
-                text-center 
-                bg-yellow-400 
-                mt-2
-                py-1.5
-                rounded 
-                hover:cursor-pointer
-                
-                transition
-                ease-in-out
-                hover:bg-opacity-70
-                duration-200"
-		value="Register"
-		type="submit"
+	<SimpleButton
 		on:click={(event) => {
 			event.preventDefault();
 			register();
 		}}
-	/>
+	>
+		Register
+	</SimpleButton>
 </form>

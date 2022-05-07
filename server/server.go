@@ -24,10 +24,8 @@ import (
 func Init() {
 	startTime := time.Now()
 	cfg := config.Init()
-	client := config.InitFirebase()
 	// Initialize controllers
 	pingHandler := handlers.PingHandler{}
-	userHandler := handlers.UserHandler{Client: client}
 
 	// Map handlers to URLs
 	router := mux.NewRouter()
@@ -36,16 +34,6 @@ func Init() {
 		"/api/version",
 		middleware.Wrap(pingHandler.GetVersion(), middleware.ResponseHeaders()),
 	).Methods("GET", "OPTIONS")
-
-	router.HandleFunc(
-		"/api/register",
-		middleware.Wrap(userHandler.RegisterUser(), middleware.ResponseHeaders()),
-	).Methods("PUT", "OPTIONS")
-
-	router.HandleFunc(
-		"/api/login",
-		middleware.Wrap(userHandler.LoginUser(), middleware.ResponseHeaders()),
-	).Methods("POST", "OPTIONS")
 
 	c := cors.New(cors.Options{
 		AllowCredentials: true,

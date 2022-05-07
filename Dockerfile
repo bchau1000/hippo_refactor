@@ -30,8 +30,5 @@ WORKDIR /server
 # files that we will copy over
 COPY --from=build /temp/server/out /server
 
-# Need this config folder from our repo since it defines host/port
-COPY --from=build /temp/server/config /server/config
-
 # Run the executable we built in the first stage
 CMD ["/server/deploy"]

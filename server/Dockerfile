@@ -1,5 +1,9 @@
 FROM golang:1.18-alpine AS builder
 
+ENV DB_HOST=host.docker.internal
+ENV DB_USER=root
+ENV DB_PASS=1234
+
 # Create the working directory within the container
 WORKDIR /tmp/build
 
@@ -19,6 +23,10 @@ RUN go build -o ./out/deploy .
 
 # Create a smaller image to deploy onto
 FROM alpine:3.9
+
+ENV DB_HOST=host.docker.internal
+ENV DB_USER=root
+ENV DB_PASS=1234
 
 WORKDIR /hippo-server
 # Copy files built in builder image to our new smaller image

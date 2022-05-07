@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { Events } from '../../api/constants';
+	import { SimpleInput, HiddenInput, SimpleButton } from '../General';
 
 	const dispatch = createEventDispatcher();
 
@@ -8,7 +10,7 @@
 
 	const login = () => {
 		if (email.length > 0 && password.length > 0) {
-			dispatch('login', {
+			dispatch(Events.login, {
 				email: email,
 				password: password,
 			});
@@ -22,54 +24,18 @@
 <form id="login-form-component" class="flex flex-col gap-5 w-full">
 	<div class="flex flex-col">
 		<label for="email">Email</label>
-		<input
-			class="outline-none 
-                border-b-2 
-                border-gray-300 
-
-                transition-colors
-                ease-in-out
-                duration-200
-                focus:border-yellow-400"
-			id="email"
-			type="email"
-			bind:value={email}
-		/>
+		<SimpleInput id="email" bind:value={email}/>
 	</div>
 	<div class="flex flex-col">
 		<label for="password">Password</label>
-		<input
-			class="outline-none 
-                border-b-2 
-                border-gray-300 
-                
-                transition-colors
-                ease-in-out
-                duration-200
-                focus:border-yellow-400"
-			id="password"
-			type="password"
-			bind:value={password}
-		/>
+		<HiddenInput id="password" bind:value={password}/>
 	</div>
-	<input
-		class="w-full 
-            text-center 
-            bg-yellow-400 
-			mt-2
-            py-1.5
-            rounded 
-            hover:cursor-pointer
-            
-            transition
-            ease-in-out
-            hover:bg-opacity-70
-            duration-200"
-		value="Login"
-		type="submit"
+	<SimpleButton
 		on:click={(event) => {
 			event.preventDefault();
 			login();
 		}}
-	/>
+	>
+		Login
+	</SimpleButton>
 </form>

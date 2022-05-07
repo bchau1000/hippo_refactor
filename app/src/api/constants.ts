@@ -4,8 +4,8 @@
  */
 
 module ServerInfo {
-    const serverHost:string = "localhost";
-    const serverPort:string = "3000"
+    const serverHost:string = 'localhost';
+    const serverPort:string = '3000'
     export const serverAddress:string = `http://${serverHost}:${serverPort}`;
 }
 
@@ -13,7 +13,14 @@ module ContentType {
     export const json:HeadersInit = { 'Content-Type': 'application/json' };
 }
 
+// Constants to label events to dispatch
+module Events {
+    export const login:string = 'login';
+    export const register:string = 'register';
+}
+
 export {
     ServerInfo,
-    ContentType
+    ContentType,
+    Events
 }

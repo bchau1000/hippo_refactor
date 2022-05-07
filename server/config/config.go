@@ -3,6 +3,7 @@ package config
 import (
 	"base/server/logging"
 	"fmt"
+	"os"
 
 	"github.com/spf13/viper"
 )
@@ -23,6 +24,8 @@ type serverConfig struct {
 }
 
 type databaseConfig struct {
+	Host     string
+	Port     string
 	Name     string
 	User     string
 	Password string
@@ -40,21 +43,35 @@ func Init() Config {
 		panic(fmt.Sprintf("Fatal error reading config file: %s \n", err))
 	}
 
+	dbHost := os.Getenv(viper.GetString(DbHost))
+	dbPassword := os.Getenv(viper.GetString(DbPassword))
+	dbUser := os.Getenv(viper.GetString(DbUser))
+
+	if len(dbHost) == 0 || len(dbPassword) == 0 || len(dbUser) == 0 {
+		logging.Log("Fatal error, not all database environment variables are set\n")
+		panic("Fatal error, not all database environment variables are set\n")
+	}
+
 	return Config{
 		Server: newServerConfig(
 			viper.GetString(ServerHost),
 			viper.GetInt(ServerPort),
 			viper.GetString(ServerVersion),
 		),
-		Database: newDatabaseConfig( // TO DO
-			"",
-			"",
-			"",
+		Database: newDatabaseConfig(
+			dbHost,
+			viper.GetString(DbPort),
+			viper.GetString(DbName),
+			dbUser,
+			dbPassword,
 		),
 	}
 }
 
-func newServerConfig(host string, port int, version string) serverConfig { // private
+func newServerConfig(host string,
+	port int,
+	version string,
+) serverConfig { // private
 	return serverConfig{
 		Host:    host,
 		Port:    port,
@@ -63,8 +80,16 @@ func newServerConfig(host string, port int, version string) serverConfig { // pr
 }
 
 // TO DO
-func newDatabaseConfig(name string, user string, password string) databaseConfig { // private
+func newDatabaseConfig(host string,
+	port string,
+	name string,
+	user string,
+	password string,
+) databaseConfig { // private
+
 	return databaseConfig{
+		Host:     host,
+		Port:     port,
 		Name:     name,
 		User:     user,
 		Password: password,

@@ -1,10 +1,6 @@
-import { ServerInfo, ContentType } from "./constants";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 import type {UserCredential } from "firebase/auth"
-
-
-
 
 const login = async (event: any): Promise<string> => {
     event.preventDefault();

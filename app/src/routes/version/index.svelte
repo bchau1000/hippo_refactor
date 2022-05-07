@@ -8,10 +8,10 @@
 	let version:Promise<Version> = request();
 </script>
 
-<main>
+<div>
 	{#await version}
 		<span class="text-med">Loading...</span>
 	{:then version} 
 		<span class="text-med">{version.toString()}</span>
 	{/await}
-</main>
+</div>
