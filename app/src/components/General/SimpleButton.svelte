@@ -1,5 +1,6 @@
 <script lang="ts">
-	export var style: string = '';
+	let style:string = "";
+	export { style as class };
 </script>
 
 <button

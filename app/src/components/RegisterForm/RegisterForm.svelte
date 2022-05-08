@@ -27,19 +27,19 @@
 
 <form id="register-form-component" class="flex flex-col w-full gap-5">
 	<div class="flex flex-col">
-		<label for="display-name">Display Name</label>
+		<label class={`mb-2`} for="display-name">Display Name</label>
 		<SimpleInput id="display-name" bind:value={displayName} />
 	</div>
 	<div class="flex flex-col">
-		<label for="email">Email</label>
+		<label class={`mb-2`} for="email">Email</label>
 		<SimpleInput id="email" bind:value={email} />
 	</div>
 	<div class="flex flex-col">
-		<label for="password">Password</label>
+		<label class={`mb-2`} for="password">Password</label>
 		<HiddenInput id="password" bind:value={password} />
 	</div>
-	<div class="flex flex-col">
-		<label for="confirm-password">Confirm Password</label>
+	<div class="flex flex-col mb-6">
+		<label class={`mb-2`} for="confirm-password">Confirm Password</label>
 		<HiddenInput id="confirm-password" bind:value={confirmPassword} />
 	</div>
 	<SimpleButton

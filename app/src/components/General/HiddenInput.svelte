@@ -1,7 +1,8 @@
 <script lang="ts">
+        let style:string = "";
+	export { style as class };
 	export let value: string = '';
 	export let id: string = '';
-	export let style: string = '';
 </script>
 
 <input
@@ -12,7 +13,7 @@
                 transition-colors
                 ease-in-out
                 duration-200
-                focus:border-yellow-4`}
+                focus:border-yellow-400`}
 	{id}
 	type="password"
 	bind:value

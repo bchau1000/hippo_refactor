@@ -1,7 +1,8 @@
 <script lang="ts">
+	let style:string = "";
+	export { style as class };
 	export let value: string = '';
 	export let id: string = '';
-	export let style: string = '';
 </script>
 
 <input

@@ -1,6 +1,7 @@
 <script lang="ts">
+    let style:string = "";
+	export { style as class };
     export let href = "/";
-    export let style = "";
 </script>
 
 <a 

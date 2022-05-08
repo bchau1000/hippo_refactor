@@ -23,12 +23,12 @@
 
 <form id="login-form-component" class="flex flex-col gap-5 w-full">
 	<div class="flex flex-col">
-		<label for="email">Email</label>
-		<SimpleInput id="email" bind:value={email}/>
+		<label class={`mb-2`} for="login-email">Email</label>
+		<SimpleInput id="login-email" bind:value={email}/>
 	</div>
-	<div class="flex flex-col">
-		<label for="password">Password</label>
-		<HiddenInput id="password" bind:value={password}/>
+	<div class="flex flex-col mb-6">
+		<label class={`mb-2`} for="login-password">Password</label>
+		<HiddenInput id="login-password" bind:value={password}/>
 	</div>
 	<SimpleButton
 		on:click={(event) => {
