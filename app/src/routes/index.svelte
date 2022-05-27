@@ -8,7 +8,7 @@
 	let version:Promise<Version> = request();
 </script>
 
-<main class="min-h-[100%]">
+<main class="min-h-[100%] bg-dark-bg ">
 	{#await version}
 		<span class="text-med">Loading...</span>
 	{:then version} 
