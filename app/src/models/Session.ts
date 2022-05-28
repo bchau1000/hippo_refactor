@@ -1,11 +1,13 @@
 class History {
-    constructor() {}
+    constructor({
+        
+    }) {}
 }
 
 export class Session {
     private history: History;
 
-    constructor({ history } :{ history: History }) {
+    constructor({ history }:{ history: History }) {
         this.history = history;
     }
 
