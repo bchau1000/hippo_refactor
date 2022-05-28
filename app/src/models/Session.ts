@@ -3,7 +3,13 @@ class History {
 }
 
 export class Session {
-    constructor(
-        public history: History = new History()
-    ) {}
+    private history: History;
+
+    constructor({ history } :{ history: History }) {
+        this.history = history;
+    }
+
+    public getHistory(): History {
+        return this.history;
+    }
 }

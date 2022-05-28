@@ -20,5 +20,8 @@
 # Name of the build file
 server/deploy
 
+# No hangup files
+nohup.*
+
 # VS Code
 .vscode/
