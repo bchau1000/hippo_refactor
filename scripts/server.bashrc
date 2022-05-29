@@ -4,7 +4,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROJECT_DIR="$(dirname "${SCRIPT_DIR}")"
 SERVER_DIR="${PROJECT_DIR}/server"
 APP_DIR="${PROJECT_DIR}/app"
-IMAGE_NAME="hippo-server"
 
 # Deploys the server locally and trails the server logs
 function deploy() {
@@ -16,24 +15,9 @@ function deploy() {
 }
 
 # Deletes existing hippo-server images/containers and deploys a new one
+# If on linux, run deploy.sh directly using: sudo bash deploy.sh
 function deployContainer() {
-    CONTAINER_ID=$(docker ps | grep "${IMAGE_NAME}" | awk '{ print $1 }') &&
-
-    echo "${DATE_NOW} Stopping existing ${IMAGE_NAME} container" &&
-    docker stop ${CONTAINER_ID} 2> /dev/null;
-
-    echo "${DATE_NOW} Removing existing ${IMAGE_NAME} container" &&
-    docker rm ${CONTAINER_ID} 2> /dev/null;
-
-    echo "${DATE_NOW} Removing existing ${IMAGE_NAME} image" &&
-    docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | grep "${IMAGE_NAME}") 2> /dev/null;
-
-    echo "${DATE_NOW} Building ${IMAGE_NAME} image" &&
-    docker build --tag ${IMAGE_NAME} ${SERVER_DIR} &&
-
-    echo "${DATE_NOW} Deploying ${IMAGE_NAME} to container" &&
-    docker run -d -p 127.0.0.1:3000:3000/tcp ${IMAGE_NAME} &&
-    docker ps;
+    ./deploy.sh
 }
 
 # Completely clears output in server.log
