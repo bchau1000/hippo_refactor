@@ -15,7 +15,7 @@ function deploy() {
 }
 
 # Deletes existing hippo-server images/containers and deploys a new one
-# If on linux, run deploy.sh directly using: sudo bash deploy.sh
+# If on Linux, run deploy.sh directly using: sudo bash deploy.sh
 function deployContainer() {
     ./deploy.sh
 }

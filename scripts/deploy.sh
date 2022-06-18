@@ -10,10 +10,10 @@ function deployContainer() {
     CONTAINER_ID=$(docker ps | grep "${IMAGE_NAME}" | awk '{ print $1 }') &&
 
     echo "${DATE_NOW} Stopping existing ${IMAGE_NAME} container" &&
-    docker stop ${CONTAINER_ID} 2> /dev/null;
+    docker stop ${CONTAINER_ID};
 
     echo "${DATE_NOW} Removing existing ${IMAGE_NAME} container" &&
-    docker rm ${CONTAINER_ID} 2> /dev/null;
+    docker rm ${CONTAINER_ID};
 
     echo "${DATE_NOW} Removing existing ${IMAGE_NAME} image" &&
     docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | grep "${IMAGE_NAME}") 2> /dev/null;
@@ -25,5 +25,3 @@ function deployContainer() {
     docker run -d -p 127.0.0.1:3000:3000/tcp ${IMAGE_NAME} &&
     docker ps;
 }
-
-deployContainer

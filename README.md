@@ -1,12 +1,8 @@
 # Hippo Refactor
 Refactoring hippo-webapp using a new tech stack:
-- Frontend - ???/Tailwind
-    - Svelte
-    - React
+- Frontend - Svelte/Tailwind
 - Backend - Go
-- Database - ???
-    - MySQL
-    - PostgreSQL
+- Database - MySQL
 
 # Development
 - Server (`/server`)
@@ -23,6 +19,8 @@ Refactoring hippo-webapp using a new tech stack:
 - Logs are output to the root of the folder in `server.log` by default.
 
 - Run `tail -f server.log` to continuously output server logs.
+
+- If running from the docker, you can tail the logs by first running `docker exec -it {CONTAINER_ID} //bin/sh`
 
 # Dependencies
 - Go 

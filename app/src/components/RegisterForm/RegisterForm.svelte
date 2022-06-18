@@ -10,19 +10,15 @@
 	let password: string = '';
 	let confirmPassword: string = '';
 
-	const register = () => {
-		if (password !== confirmPassword) {
-			console.log('Passwords do not match.');
-		} else if (password.length < 8) {
-			console.log('Password must be at least 8 characters.');
-		} else {
-			dispatch(Events.register, {
-				displayName: displayName,
-				email: email,
-				password: password
-			});
-		}
-	};
+	const onRegister = ():void => {
+		dispatch(Events.register, {
+			displayName: displayName,
+			email: email,
+			password: password,
+			confirmPassword: confirmPassword,
+		});
+	}
+
 </script>
 
 <form id="register-form-component" class="flex flex-col w-full gap-5">
@@ -45,7 +41,7 @@
 	<SimpleButton
 		on:click={(event) => {
 			event.preventDefault();
-			register();
+			onRegister();
 		}}
 	>
 		Register

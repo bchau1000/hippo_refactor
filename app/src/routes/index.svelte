@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {Version} from '../models/Version';
 	async function request():Promise<Version> {
-		const response:Response = await fetch("http://localhost:3000/api/version");
+		const response:Response = await fetch("/api/version", {method: "GET"});
 		const json = await response.json();
 		return new Version(json);
 	}

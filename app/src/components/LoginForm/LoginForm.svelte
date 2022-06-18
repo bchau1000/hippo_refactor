@@ -1,24 +1,20 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import { Events } from '../../api/constants';
+	import { createEventDispatcher } from 'svelte';
 	import { SimpleInput, HiddenInput, SimpleButton } from '../General';
-
-	const dispatch = createEventDispatcher();
 
 	let email: string = '';
 	let password: string = '';
 
-	const login = () => {
-		if (email.length > 0 && password.length > 0) {
-			dispatch(Events.login, {
-				email: email,
-				password: password,
-			});
-		} else {
-			// TODO: Alert system that isn't annoying
-			console.log("Invalid email and/or password...");
-		}
+	const dispatch = createEventDispatcher();
+	const onLogin = ():void => {
+		dispatch(Events.login, {
+			email: email,
+			password: password,
+		})
 	}
+
+	
 </script>
 
 <form id="login-form-component" class="flex flex-col gap-5 w-full">
@@ -33,7 +29,7 @@
 	<SimpleButton
 		on:click={(event) => {
 			event.preventDefault();
-			login();
+			onLogin();
 		}}
 	>
 		Login

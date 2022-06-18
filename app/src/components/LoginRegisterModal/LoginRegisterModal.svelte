@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { login, register } from '../../api/handleUser';
 	import { Modal } from '../General';
 	import LoginForm from '../LoginForm';
 	import RegisterForm from '../RegisterForm';
@@ -7,13 +6,6 @@
 	export let showModal: boolean = false;
 	let showTab: boolean = false;
 
-	async function handleLogin(event: any): Promise<void> {
-		await login(event);
-	}
-
-	async function handleRegister(event: any): Promise<void> {
-		await register(event);
-	}
 </script>
 
 <Modal class={`flex flex-col `} bind:showModal showFocus={true}>
@@ -43,13 +35,13 @@
         w-[500px]
         px-12
         pt-12
-        pb-8
+        pb-8O
     `}
 	>
 		{#if showTab}
-			<LoginForm on:login={handleLogin} />
+			<LoginForm on:login/>
 		{:else}
-			<RegisterForm on:register={handleRegister} />
+			<RegisterForm on:register/>
 		{/if}
 	</section>
 </Modal>

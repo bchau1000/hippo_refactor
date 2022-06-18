@@ -7,10 +7,10 @@ import (
 	"base/server/middleware"
 	"fmt"
 	"net/http"
+	"net/http/cookiejar"
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/rs/cors"
 )
 
 /**
@@ -21,11 +21,24 @@ import (
  * 3. Performance logger (use context library?)
  * 4. Unit testing
 **/
+var client http.Client
+
 func Init() {
 	startTime := time.Now()
 	cfg := config.Init()
+	jar, err := cookiejar.New(nil)
+
+	if err != nil {
+		logging.Log(fmt.Sprintf("Got error while creating cookie jar %s", err.Error()))
+	}
+
+	client = http.Client{
+		Jar: jar,
+	}
+
 	// Initialize controllers
 	pingHandler := handlers.PingHandler{}
+	userHandler := handlers.UserHandler{}
 
 	// Map handlers to URLs
 	router := mux.NewRouter()
@@ -35,11 +48,10 @@ func Init() {
 		middleware.Wrap(pingHandler.GetVersion(), middleware.ResponseHeaders()),
 	).Methods("GET", "OPTIONS")
 
-	c := cors.New(cors.Options{
-		AllowCredentials: true,
-		AllowedOrigins:   []string{cfg.Server.Host, "*"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
-	})
+	router.HandleFunc(
+		"/api/user/login",
+		middleware.Wrap(userHandler.LoginUser(), middleware.ResponseHeaders()),
+	).Methods("POST", "OPTIONS")
 
 	logging.Log(fmt.Sprintf(
 		"Started server at %s:%d in %dms",
@@ -47,5 +59,5 @@ func Init() {
 		cfg.Server.Port,
 		time.Since(startTime).Milliseconds()))
 
-	http.ListenAndServe(fmt.Sprintf(":%d", cfg.Server.Port), c.Handler(router))
+	http.ListenAndServe(fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port), router)
 }

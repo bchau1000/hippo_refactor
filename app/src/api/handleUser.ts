@@ -1,43 +1,62 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
-import type {UserCredential } from "firebase/auth"
+import type { UserCredential } from "firebase/auth";
+import { ServerInfo, ContentType } from "./constants";
 
-const login = async (event: any): Promise<string> => {
-    event.preventDefault();
+const authUrl = `${ServerInfo.serverAddress}/api/user/auth`;
+const loginUrl = `${ServerInfo.serverAddress}/api/user/login`;
 
-    const { email, password }:
-        { email: string, password: string } = event.detail;
+const login = async (
+    email:string, 
+    password:string
+):Promise<void> => {
     try {
         const userCredential:UserCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log(userCredential.user);
+
+        auth.currentUser?.getIdToken(true).then(async (idToken) => {
+            const response:Response = await fetch("/api/user/login", {
+                method: "POST",
+                headers: {
+                    ...ContentType.json,
+                },
+                body: JSON.stringify({
+                    'displayName': userCredential.user.displayName,
+                    'email': userCredential.user.email,
+                    'uid': userCredential.user.uid,
+                    'idToken': idToken,
+                }),
+                
+            });
+
+            let json = await response.json();
+            console.log(json)
+        });
     } catch(error:any) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`${errorCode}: ${errorMessage}`);
+        console.error(`${error.code}: ${error.message}`);
     }
-    
-    return await Promise.resolve("");
+
 }
 
-const register = async (event: any):Promise<void> => {
-    event.preventDefault();
-    
-    const {displayName, email, password}:
-        {displayName:string, email:string, password:string} = event.detail;
-
+const register = async (
+    displayName:string, 
+    email:string, 
+    password:string,
+):Promise<void> => {
     try {
         const userCredential:UserCredential = await createUserWithEmailAndPassword(
             auth, 
             email, 
             password
         );
-        console.log(userCredential.user);
     } catch(error:any) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.error(`${errorCode}: ${errorMessage}`);
+        console.error(`${error.code}: ${error.message}`);
     }
+}
+
+const authUser = async ():Promise<void> => {
+    auth.currentUser?.getIdToken(true).then(async () => {
+        
+    });
 }
 
 export {

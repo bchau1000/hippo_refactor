@@ -1,6 +1,8 @@
 FROM golang:1.18-alpine AS builder
 
 ENV DB_HOST=host.docker.internal
+
+# Replace with your MySQL login
 ENV DB_USER=root
 ENV DB_PASS=1234
 

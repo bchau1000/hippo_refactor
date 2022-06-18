@@ -52,6 +52,8 @@ func Init() Config {
 		panic("Fatal error, not all database environment variables are set\n")
 	}
 
+	logging.Log("Successfully set database and server configurations")
+
 	return Config{
 		Server: newServerConfig(
 			viper.GetString(ServerHost),
