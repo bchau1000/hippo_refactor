@@ -3,8 +3,8 @@
  * and easy to navigate
  */
 module ServerInfo {
-    const serverHost:string = 'localhost';
-    const serverPort:string = '3000'
+    const serverHost:string = '127.0.0.1';
+    const serverPort:string = '4000'
     export const serverAddress:string = `http://${serverHost}:${serverPort}`;
 }
 

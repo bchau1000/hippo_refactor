@@ -4,7 +4,7 @@ import type { UserCredential } from "firebase/auth";
 import { ServerInfo, ContentType } from "./constants";
 
 const authUrl = `${ServerInfo.serverAddress}/api/user/auth`;
-const loginUrl = `${ServerInfo.serverAddress}/api/user/login`;
+const loginUrl = `${ServerInfo.serverAddress}/api/login`;
 
 const login = async (
     email:string, 
@@ -14,11 +14,12 @@ const login = async (
         const userCredential:UserCredential = await signInWithEmailAndPassword(auth, email, password);
 
         auth.currentUser?.getIdToken(true).then(async (idToken) => {
-            const response:Response = await fetch("/api/user/login", {
+            const response:Response = await fetch(loginUrl, {
                 method: "POST",
                 headers: {
                     ...ContentType.json,
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     'displayName': userCredential.user.displayName,
                     'email': userCredential.user.email,

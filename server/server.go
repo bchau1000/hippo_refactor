@@ -49,7 +49,7 @@ func Init() {
 	).Methods("GET", "OPTIONS")
 
 	router.HandleFunc(
-		"/api/user/login",
+		"/api/login",
 		middleware.Wrap(userHandler.LoginUser(), middleware.ResponseHeaders()),
 	).Methods("POST", "OPTIONS")
 
@@ -59,5 +59,5 @@ func Init() {
 		cfg.Server.Port,
 		time.Since(startTime).Milliseconds()))
 
-	http.ListenAndServe(fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port), router)
+	http.ListenAndServe(fmt.Sprintf(":%d", cfg.Server.Port), router)
 }

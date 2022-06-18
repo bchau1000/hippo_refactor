@@ -21,7 +21,8 @@ func (handler UserHandler) LoginUser() http.HandlerFunc {
 		err := json.NewDecoder(req.Body).Decode(&user)
 
 		if err != nil {
-			http.Error(resp, err.Error(), http.StatusBadRequest)
+			resp.WriteHeader(http.StatusBadRequest)
+			resp.Write([]byte(fmt.Sprintf(`{"message": "%s"}`, err.Error())))
 			return
 		}
 
@@ -29,6 +30,7 @@ func (handler UserHandler) LoginUser() http.HandlerFunc {
 			Name:   "idToken",
 			Value:  user.IdToken,
 			MaxAge: 2592000000,
+			Path:   "/",
 		}
 
 		http.SetCookie(resp, cookie)
@@ -42,7 +44,7 @@ func (handler UserHandler) LoginUser() http.HandlerFunc {
 
 		jsonData := []byte(fmt.Sprintf(`{"message": "%s successfully logged in!"}`, user.Email))
 
-		resp.WriteHeader(http.StatusCreated)
+		resp.WriteHeader(http.StatusOK)
 		resp.Write(jsonData)
 	})
 }

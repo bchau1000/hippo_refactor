@@ -1,7 +1,16 @@
 <script lang="ts">
 	import {Version} from '../models/Version';
+	import { ServerInfo, ContentType } from "../api/constants";
 	async function request():Promise<Version> {
-		const response:Response = await fetch("/api/version", {method: "GET"});
+		const response:Response = await fetch(
+			"http://127.0.0.1:4000/api/version", 
+			{
+				method: "GET",
+				credentials: 'include',
+				headers: {
+                    ...ContentType.json,
+                },
+			});
 		const json = await response.json();
 		return new Version(json);
 	}
