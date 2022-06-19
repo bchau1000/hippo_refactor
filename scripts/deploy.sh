@@ -22,8 +22,13 @@ function deployContainer() {
     docker build --tag ${IMAGE_NAME} ${SERVER_DIR} &&
 
     echo "${DATE_NOW} Deploying ${IMAGE_NAME} to container" &&
-    docker run -d -p 127.0.0.1:3000:3000/tcp ${IMAGE_NAME} &&
+    docker run -d -p 127.0.0.1:$1:3000/tcp ${IMAGE_NAME} &&
     docker ps;
 }
 
-deployContainer
+if [ -z "$1" ]
+then
+    echo "You must provide a port to bind to (eg. ./deploy.sh 80)"
+else
+    deployContainer $1
+fi
